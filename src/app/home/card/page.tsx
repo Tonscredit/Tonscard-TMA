@@ -265,7 +265,7 @@ const Dashboard = () => {
             <h2 className="text-2xl font-bold text-white mb-4 flex"><FaHistory/>&nbsp; Credit History</h2>
               <div className={`!z-5 relative flex flex-col rounded-[20px] bg-gray-900 bg-clip-border shadow-3xl shadow-shadow-100 dark:text-white `}>
                 {credit.map((c, idx) => (
-                  <div className="h-full w-full">
+                  <div className="h-full w-full" key={idx}>
                     <div className="flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col 2xl:items-start 3xl:flex-row 3xl:items-center 3xl:justify-between">
                       <div className="flex">
                       <div className="mb-2">

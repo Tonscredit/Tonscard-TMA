@@ -5,9 +5,7 @@ import Card from 'components/card';
 import {
   useDisclosure,
 } from '@chakra-ui/react'
-import { config } from "../../../core/config";
 import { useEffect, useState } from "react";
-import { search_token_by_id } from "core/utils";
 const Dashboard = () => {
 
   useEffect(() => {

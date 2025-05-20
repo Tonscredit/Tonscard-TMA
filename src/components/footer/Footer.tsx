@@ -20,7 +20,7 @@ const Footer = () => {
           <li>
             <a
               target="blank"
-              href="https://t.me/+GU7hK-z0jVthYjQ1"
+              href="https://t.me/+4JUfM1MgH5UyNzQ1"
               className="text-base font-medium text-gray-600 hover:text-gray-600"
             >
               Community

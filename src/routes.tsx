@@ -37,7 +37,7 @@ const routes = [
   {
     name: 'Community Channel',
     layout: '/links',
-    path: "https://t.me/+GU7hK-z0jVthYjQ1",
+    path: "https://t.me/+4JUfM1MgH5UyNzQ1",
     icon: <TbBrandTelegram className="h-6 w-6" />,
   },
   {
