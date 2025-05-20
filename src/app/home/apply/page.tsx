@@ -41,31 +41,31 @@ const Dashboard = () => {
     {
       id: 1,
       title: "Dark Card",
-      subtitle: "Non-KYC|10$|2.45%|999$ Limit Peer Month",
+      subtitle: "Non-KYC|10$|2.45%|1999$ Limit Peer Month",
       imgSrc: "/img/card/card-emp.png",
-      btnText: "Apply Now",
+      btnText: "Apply Dark Card",
       onClick: () => {
-        alert("Card Management");
+        location.href = "/home/new-apply?type=dark"
       },
     },
     {
       id: 2,
       title: "Blue Card",
-      subtitle: "Require-KYC|5$|1.99%|9999$ Limit Peer Month",
+      subtitle: "Require-KYC|5$|1.99%|4999$ Limit Peer Month",
       imgSrc: "/img/card/card-bg-1.webp",
-      btnText: "Apply Now",
+      btnText: "Apply Blue Card",
       onClick: () => {
-        alert("Connect BTC clicked");
+        location.href = "/home/new-apply?type=blue"
       },
     },
     {
       id: 3,
       title: "Red Card",
-      subtitle: "Require-KYC|100$|1.99%|99999$ Limit Peer Month",
+      subtitle: "Require-KYC|100$|1.99%|49999$ Limit Peer Month",
       imgSrc: "/img/card/card-bg-2.jpg",
-      btnText: "Apply Now",
+      btnText: "Apply Red card",
       onClick: () => {
-        alert("Connect ETH clicked");
+        location.href = "/home/new-apply?type=red"
       },
     },
   ];

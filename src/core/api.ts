@@ -76,6 +76,33 @@ async function requester(url: string, requestOptions: any) {
     }
   }
 
+    async function api_user_info() {
+    try {
+      return await requester(
+        `${config.api.baseUrl+config.api.router.info}`,
+        request_get_auth(),
+      );
+    } catch (e) {
+      console.error(e);
+  
+      return 0;
+    }
+  }
+  async function api_user_info_update(data:any) {
+    try {
+      return await requester(
+        `${config.api.baseUrl+config.api.router.info}`,
+        request_post_auth(
+          data
+        ),
+      );
+    } catch (e) {
+      console.error(e);
+      return 0;
+    }
+  }
   export {
-    api_user_data
+    api_user_data,
+    api_user_info,
+    api_user_info_update
   }

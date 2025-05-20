@@ -12,9 +12,6 @@ import { SendTransactionRequest, useTonConnectUI, useTonWallet } from "@tonconne
 import {TonConnectButton} from "@tonconnect/ui-react";
 import TonWeb from 'tonweb';
 import { api_user_data } from "core/api";
-import NftCard from "components/card/NftCard";
-
-import NFt6 from '/public/img/nfts/Nft6.png';
 const Dashboard = () => {
   const [expanded, setExpanded] = useState(false);
   const [tonConnectUi] = useTonConnectUI();

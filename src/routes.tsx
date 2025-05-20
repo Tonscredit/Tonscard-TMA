@@ -7,7 +7,7 @@ import { FaRegCreditCard } from "react-icons/fa6";
 import { GiFarmer } from "react-icons/gi";
 import { FaHistory } from "react-icons/fa";
 import { MdContactSupport } from "react-icons/md";
-import { TbBrandGithub } from "react-icons/tb";
+import { TbBrandGithub ,TbBrandTelegram} from "react-icons/tb";
 const routes = [
   {
     name: 'My Cards',
@@ -38,7 +38,7 @@ const routes = [
     name: 'Community Channel',
     layout: '/links',
     path: "https://t.me/+GU7hK-z0jVthYjQ1",
-    icon: <MdContactSupport className="h-6 w-6" />,
+    icon: <TbBrandTelegram className="h-6 w-6" />,
   },
   {
     name: 'Source-Code',

@@ -7,7 +7,6 @@ import { setAuth, setUserId } from 'core/storage';
 export default function Home({}) {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const token = searchParams.get("token");
   const uid = searchParams.get("id");
   useEffect(() => {
