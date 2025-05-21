@@ -276,7 +276,7 @@ const Dashboard = () => {
                 wallet?
                 <div className="w-full flex justify-between ">
                     <div style={{color:"white"}}>
-                      <img src="/img/chains/usdc.png" style={{maxWidth:"50px"}}/>{dogsBal}
+                      <img src="/img/coins/dogs.png" style={{maxWidth:"50px"}}/>{dogsBal}
                     </div>
                     <div style={{color:"white"}}>
                       <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>{tonBal}
@@ -318,7 +318,7 @@ const Dashboard = () => {
               {
                 credit.length==0 ? 
                   <div className="flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col 2xl:items-start 3xl:flex-row 3xl:items-center 3xl:justify-between">
-                    <div  className="w-full flex justify-center items-center" style={{minHeight:"50px"}} onClick={walletBlanace}>
+                    <div  className="w-full flex justify-center items-center" style={{minHeight:"50px"}}>
                        No any bill
                     </div>
                    

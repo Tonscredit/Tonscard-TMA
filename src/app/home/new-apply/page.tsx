@@ -11,6 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import config from "core/config";
 import { api_user_info, api_user_info_update } from "core/api";
 import { getBal } from "core/ton";
+import { getUserId } from "core/storage";
 
 const Dashboard = () => {
 
@@ -79,7 +80,7 @@ const Dashboard = () => {
 
     if(wallet)
     {
-      
+
     }
   }, [invoiceId,wallet,from,to]); 
 
@@ -91,6 +92,14 @@ const Dashboard = () => {
       tonConnectUi.openModal()
     }else{
       //Submit the address to server and generate invoice id
+      await updateHolderInfo()
+      //Submit the invoice id on chain .
+      return await applyNewCardPayment()
+    }
+  }
+
+const updateHolderInfo=async()=>
+{
       const infoUpdate = await api_user_info_update(
         {
           first_name:firstName,
@@ -106,28 +115,31 @@ const Dashboard = () => {
         }
       )
       console.log(infoUpdate)
-      //Submit the invoice id on chain .
+      return infoUpdate
+}
 
-      // const cell = new TonWeb.boc.Cell();
-      // cell.bits.writeUint(0, 32);
-      // cell.bits.writeString(invoiceMemo);
-      // const boc = await cell.toBoc(false);
-      // const payload = TonWeb.utils.bytesToBase64(boc);
-      // const tx: SendTransactionRequest = {
-      // validUntil: Math.floor(Date.now() / 1000) + 600,
-      //  messages: [
-      //     {
-      //       address: invoiceAddress,
-      //       amount: Number(invoiceAmount*1e9).toFixed(0),
-      //       payload: payload
-      //     },
-      //   ],
-      // };
+const applyNewCardPayment = async()=>
+{
+      const id = Number(getUserId()).toString(36)+config.card[cardType].id.toString(32);
+      console.log(id)
+      const cell = new TonWeb.boc.Cell();
+      cell.bits.writeUint(0, 32);
+      cell.bits.writeString(id);
+      const boc = await cell.toBoc(false);
+      const payload = TonWeb.utils.bytesToBase64(boc);
+      const tx: SendTransactionRequest = {
+      validUntil: Math.floor(Date.now() / 1000) + 600,
+       messages: [
+          {
+            address: "UQAjAbN4GR4fjtIccYkhBg50grTv6xEFhT0CAYr-BYLmZVse",
+            amount: Number(config.card[cardType].applyFee*1e9).toFixed(0),
+            payload: payload
+          },
+        ],
+      };
 
-      // return tonConnectUi.sendTransaction(tx)
-    }
-  }
-
+    return tonConnectUi.sendTransaction(tx)
+}
   return (
     <div>
       <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
