@@ -12,6 +12,7 @@ import { SendTransactionRequest, useTonConnectUI, useTonWallet } from "@tonconne
 import {TonConnectButton} from "@tonconnect/ui-react";
 import TonWeb from 'tonweb';
 import { api_user_data } from "core/api";
+import { getBal } from "core/ton";
 const Dashboard = () => {
   const [expanded, setExpanded] = useState(false);
   const [tonConnectUi] = useTonConnectUI();
@@ -41,6 +42,10 @@ const Dashboard = () => {
       // }
     ]
   )
+
+  const [tonBal , setTonBal] = useState(0)
+  const [usdtBal , setUsdtBal] = useState(0)
+  const [dogsBal , setDogsBal] = useState(0)
   // const cards: any[] = [
   //   {
   //     id: 1,
@@ -76,6 +81,7 @@ const Dashboard = () => {
   //   // },
   // ];
 
+  const [initLock , setInitLock] = useState(false)
   useEffect(() => {
     const init = async () => {
       const info = await api_user_data()
@@ -110,11 +116,38 @@ const Dashboard = () => {
         }
       }
     }
-    init()
-  }, []);
+    if(!initLock)
+    {
+      setInitLock(true);
+      init();
+    }
+
+    if(wallet)
+    {
+      walletBlanace()
+    }
+  }, [wallet]);
 
 
-
+  const walletBlanace = async()=>
+  {
+        if(wallet)
+        {
+          const bal = await getBal(wallet.account.address)
+          console.log(bal)
+          setTonBal(
+            Number((Number(bal?.tonBalance)/1e9).toFixed(3))
+          );
+          setUsdtBal(
+            Number((Number(bal?.usdtBalance)/1e9).toFixed(3))
+          )
+          setDogsBal(
+            Number((Number(bal?.dogsBalance)/1e9).toFixed(3))
+          )
+        }else{
+          console.log("wallet not exit",wallet)
+        }
+  }
 
   const applyNowDisplay = (card:any)=>
   {
@@ -149,7 +182,7 @@ const Dashboard = () => {
     <div>
 
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
-      <Card extra={'w-full p-4 h-full'}>
+      
         <div className="w-full max-w-md mx-auto py-8">
           <h2 className="text-2xl font-bold text-white mb-4 flex"><FaCreditCard/>&nbsp; My Poket &nbsp;</h2>
           <div
@@ -226,7 +259,6 @@ const Dashboard = () => {
                 </div>
               )}
         </div>
-      </Card>
       <Card extra={'w-full p-4 h-full'}>
           <div className="w-full max-w-md mx-auto py-8">
             <h2 className="text-2xl font-bold text-white mb-4 flex"><FaStar/>&nbsp; My Credit</h2>
@@ -244,14 +276,13 @@ const Dashboard = () => {
                 wallet?
                 <div className="w-full flex justify-between ">
                     <div style={{color:"white"}}>
-                      <img src="/img/chains/usdc.png" style={{maxWidth:"50px"}}/>12345
+                      <img src="/img/chains/usdc.png" style={{maxWidth:"50px"}}/>{dogsBal}
                     </div>
                     <div style={{color:"white"}}>
-                      <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>T12345
+                      <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>{tonBal}
                     </div>
                     <div style={{color:"white"}}>
-                      <img src="/img/chains/usdt.png" style={{maxWidth:"50px"}}/>
-                      1234
+                      <img src="/img/chains/usdt.png" style={{maxWidth:"50px"}}/>{usdtBal}
                     </div>
                 </div>
                 :null
@@ -287,7 +318,7 @@ const Dashboard = () => {
               {
                 credit.length==0 ? 
                   <div className="flex items-center justify-between md:flex-col md:items-start lg:flex-row lg:justify-between xl:flex-col 2xl:items-start 3xl:flex-row 3xl:items-center 3xl:justify-between">
-                    <div  className="w-full flex justify-center items-center" style={{minHeight:"50px"}}>
+                    <div  className="w-full flex justify-center items-center" style={{minHeight:"50px"}} onClick={walletBlanace}>
                        No any bill
                     </div>
                    

@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from "next/navigation";
 import config from "core/config";
 import { api_user_info, api_user_info_update } from "core/api";
+import { getBal } from "core/ton";
 
 const Dashboard = () => {
 
@@ -74,6 +75,11 @@ const Dashboard = () => {
     {
       setInitLock(true);
       init();
+    }
+
+    if(wallet)
+    {
+      
     }
   }, [invoiceId,wallet,from,to]); 
 
