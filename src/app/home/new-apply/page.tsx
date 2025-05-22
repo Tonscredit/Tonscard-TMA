@@ -94,7 +94,9 @@ const Dashboard = () => {
       //Submit the address to server and generate invoice id
       await updateHolderInfo()
       //Submit the invoice id on chain .
-      return await applyNewCardPayment()
+      await applyNewCardPayment()
+
+      location.href="/home/card"
     }
   }
 
