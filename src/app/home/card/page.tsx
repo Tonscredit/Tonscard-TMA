@@ -105,7 +105,7 @@ const Dashboard = () => {
                 imgSrc: "/img/card/card-emp.png",
                 btnText: "Manage",
                 onClick: () => {
-                  alert("Manage");
+                  location.href="/home/card-management?id="+e.user_card_id
                 },
               }
             )
@@ -119,7 +119,7 @@ const Dashboard = () => {
                 imgSrc: "/img/card/card-bg-2.jpg",
                 btnText: "Manage",
                 onClick: () => {
-                  alert("Manage");
+                  
                 },
               }
           )
@@ -193,40 +193,8 @@ const Dashboard = () => {
     <div>
 
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
-            <Card extra={'w-full p-4 h-full'}>
-          <div className="w-full max-w-md mx-auto py-8">
-            <h2 className="text-2xl font-bold text-white mb-4 flex"><FaStar/>&nbsp; My Credit</h2>
-            <div
-            className="w-full flex justify-center items-center "
-            >
-              <TonConnectButton/>
 
-            </div>
-            <br/>
-            <div
-              className="w-full flex justify-center items-center "
-            >
-              {
-                wallet?
-                <div className="w-full flex justify-between ">
-                    <div style={{color:"white"}}>
-                      <img src="/img/coins/dogs.png" style={{maxWidth:"50px"}}/>{dogsBal}
-                    </div>
-                    <div style={{color:"white"}}>
-                      <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>{tonBal}
-                    </div>
-                    <div style={{color:"white"}}>
-                      <img src="/img/chains/usdt.png" style={{maxWidth:"50px"}}/>{usdtBal}
-                    </div>
-                </div>
-                :null
-              }
-            </div>
-          </div>
-      </Card>
-
-
-        <div className="w-full max-w-md mx-auto py-8">
+        <div className="w-full max-w-md mx-auto">
           <h2 className="text-2xl font-bold text-white mb-4 flex"><FaCreditCard/>&nbsp; My Poket &nbsp;</h2>
           <div
             className={`
@@ -357,6 +325,38 @@ const Dashboard = () => {
                 </div>
               )}
         </div>
+
+      <Card extra={'w-full p-4 h-full'}>
+          <div className="w-full max-w-md mx-auto py-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex"><FaStar/>&nbsp; My Credit</h2>
+            <div
+            className="w-full flex justify-center items-center "
+            >
+              <TonConnectButton/>
+
+            </div>
+            <br/>
+            <div
+              className="w-full flex justify-center items-center "
+            >
+              {
+                wallet?
+                <div className="w-full flex justify-between ">
+                    <div style={{color:"white"}}>
+                      <img src="/img/coins/dogs.png" style={{maxWidth:"50px"}}/>{dogsBal}
+                    </div>
+                    <div style={{color:"white"}}>
+                      <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>{tonBal}
+                    </div>
+                    <div style={{color:"white"}}>
+                      <img src="/img/chains/usdt.png" style={{maxWidth:"50px"}}/>{usdtBal}
+                    </div>
+                </div>
+                :null
+              }
+            </div>
+          </div>
+      </Card>
 
       <Card extra={'w-full p-4 h-full'}>
           <div className="w-full max-w-md mx-auto py-8">
