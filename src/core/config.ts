@@ -1,4 +1,4 @@
-export default {
+const config =  {
     storage:{
         baseTag:"tonscredit_",
         router:{
@@ -16,6 +16,7 @@ export default {
     card:{
         dark:{
             id:0,
+            name:"DARK CARD",
             color:"black",
             feeRate:"2.99%",
             applyFee:5.99,
@@ -25,6 +26,7 @@ export default {
         blue:{
             id:1,
             color:"blue",
+            name:"BLUE CARD",
             feeRate:"1.99%",
             applyFee:2.99,
             monthFee:0.1,
@@ -33,6 +35,7 @@ export default {
         red:{
             id:2,
             color:"red",
+            name:"RED CARD",
             feeRate:"1.89%",
             applyFee:9.99,
             monthFee:0.1,
@@ -287,4 +290,22 @@ export default {
             "ZM": "Zambia",
             "ZW": "Zimbabwe"
             }
+}
+
+export default config
+
+
+function getCardById(id:number)
+{
+    for(let i in config.card)
+    {
+        if(config.card[i].id == id)
+        {
+            return config.card[i];
+        }
+    }
+    return false;
+}
+export {
+    getCardById
 }

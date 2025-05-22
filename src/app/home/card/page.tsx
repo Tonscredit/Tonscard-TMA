@@ -13,6 +13,7 @@ import {TonConnectButton} from "@tonconnect/ui-react";
 import TonWeb from 'tonweb';
 import { api_user_data } from "core/api";
 import { getBal } from "core/ton";
+import { getCardById } from "core/config";
 const Dashboard = () => {
   const [expanded, setExpanded] = useState(false);
   const [tonConnectUi] = useTonConnectUI();
@@ -20,7 +21,7 @@ const Dashboard = () => {
   const [cards, setCards] = useState(
     [
       {
-      id: 1,
+      id: 0,
       title: "💎TON Card💎",
       cardNum:"",
       subtitle: "Best crypto prepaid card on TON",
@@ -88,20 +89,34 @@ const Dashboard = () => {
       if(info)
       {
         console.log(info)
-        if(info.card.length>1)
+        if(info.card.length>0)
         {
-          let c = JSON.parse(
-            JSON.stringify(
-              info.card
+          let c = [];
+          info.card.forEach((e:any) => {
+            c.push(
+              {
+                id:e.user_card_id,
+                title:`💎 ${getCardById(e.type)?getCardById(e.type).name:"Tonscredit CARD"} 💎`,
+                cardNum:e.pan,
+                subtitle:e.cvv,
+                brand:e.brand_code,
+                type:e.card_type,
+                expire:`${e.expire_year}/${e.expire_month}`,
+                imgSrc: "/img/card/card-emp.png",
+                btnText: "Manage",
+                onClick: () => {
+                  alert("Manage");
+                },
+              }
             )
-          )
+          });
           c.push(
               {
-                id: 1,
+                id: 0,
                 title: "💎TON Card💎",
                 cardNum:"",
                 subtitle: "Best crypto prepaid card on TON",
-                imgSrc: "/img/card/card-emp.png",
+                imgSrc: "/img/card/card-bg-2.jpg",
                 btnText: "Manage",
                 onClick: () => {
                   alert("Manage");
@@ -151,13 +166,8 @@ const Dashboard = () => {
 
   const applyNowDisplay = (card:any)=>
   {
-    if(card.cardNum){
-      return ("")
-    }
-    if(cards.length==1)
-    {
-      return (
-        <div className="w-full flex flex-row-reverse">
+    return (
+              <div className="w-full flex flex-row-reverse">
                       <button
                         onClick={
                           ()=>
@@ -168,21 +178,54 @@ const Dashboard = () => {
                         className="bg-gray-800 hover:bg-gray-700 text-white px-4 py-2 rounded-md w-max"
                       >
                         Apply Now
-                      </button>
+            </button>
         </div>
-      )
-    }
-    if(expanded)
-    {
-      return ("")
-    }
+    )
 
+  }
+
+  const cardNumDisplay = (cardNum:string)=>
+  {
+      const groups = cardNum.match(/.{1,4}/g);
+      return groups ? groups.join(" ") : "";
   }
   return (
     <div>
 
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
-      
+            <Card extra={'w-full p-4 h-full'}>
+          <div className="w-full max-w-md mx-auto py-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex"><FaStar/>&nbsp; My Credit</h2>
+            <div
+            className="w-full flex justify-center items-center "
+            >
+              <TonConnectButton/>
+
+            </div>
+            <br/>
+            <div
+              className="w-full flex justify-center items-center "
+            >
+              {
+                wallet?
+                <div className="w-full flex justify-between ">
+                    <div style={{color:"white"}}>
+                      <img src="/img/coins/dogs.png" style={{maxWidth:"50px"}}/>{dogsBal}
+                    </div>
+                    <div style={{color:"white"}}>
+                      <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>{tonBal}
+                    </div>
+                    <div style={{color:"white"}}>
+                      <img src="/img/chains/usdt.png" style={{maxWidth:"50px"}}/>{usdtBal}
+                    </div>
+                </div>
+                :null
+              }
+            </div>
+          </div>
+      </Card>
+
+
         <div className="w-full max-w-md mx-auto py-8">
           <h2 className="text-2xl font-bold text-white mb-4 flex"><FaCreditCard/>&nbsp; My Poket &nbsp;</h2>
           <div
@@ -193,13 +236,14 @@ const Dashboard = () => {
             `}
           >
             {cards.map((card, idx) => (
+              card.id==0?
               <div
                 key={card.id}
                 className={`
                   relative bg-gray-800 rounded-xl shadow-lg overflow-hidden
                   h-48
                   transition-all duration-300 ease-in-out
-                  ${!expanded && idx > 0 ? "-mt-12" : "mt-0"}
+                  ${!expanded && idx > 0 ? "-mt-10" : "mt-0"}
                 `}
               >
                 <div className="absolute inset-0">
@@ -224,6 +268,60 @@ const Dashboard = () => {
                   {
                     applyNowDisplay(card)
                   }
+                </div>
+              </div>
+              :
+              <div
+                key={card.id}
+                className={`
+                  relative bg-gray-800 rounded-xl shadow-lg overflow-hidden
+                  h-48
+                  transition-all duration-300 ease-in-out
+                  ${!expanded && idx > 0 ? "-mt-12" : "mt-0"}
+                `}
+              >
+                <div className="absolute inset-0">
+                  <img
+                    src={card.imgSrc}
+                    alt={card.title}
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-black/60"></div>
+                </div>
+                <div className="relative z-10 flex flex-col h-full justify-between p-4">
+                  <div>
+                    {/* <h2 className="text-white text-xl font-semibold">
+                      {card.title}
+                    </h2> */}
+                    <br/>
+                    <div className="text-white text-xl font-semibold creditfont creditcardnumber">
+                      {
+                        cardNumDisplay(card.cardNum)
+                      }
+                    </div>
+                    <div
+                    style={{
+                      flexDirection: "row-reverse"
+                    }}
+                    className="flex w-full"
+                    >
+                      <p className="text-gray-300 text-sm mt-1 creditfont creditcardcvv" >
+                          {card.subtitle}
+                      </p>
+                    </div>
+
+                    <div
+                    style={{
+                      flexDirection: "row-reverse"
+                    }}
+                    className="flex w-full"
+                    >
+                      <p className="text-gray-300 text-sm mt-1 creditfont creditcardcvv" >
+                          {card['expire']}
+                      </p>
+                    </div>
+                    
+                  </div>
                   {(card.btnText&&card.cardNum&&(expanded||cards.length<=1)) && (
                     <button
                       onClick={card.onClick}
@@ -259,37 +357,6 @@ const Dashboard = () => {
                 </div>
               )}
         </div>
-      <Card extra={'w-full p-4 h-full'}>
-          <div className="w-full max-w-md mx-auto py-8">
-            <h2 className="text-2xl font-bold text-white mb-4 flex"><FaStar/>&nbsp; My Credit</h2>
-            <div
-            className="w-full flex justify-center items-center "
-            >
-              <TonConnectButton/>
-
-            </div>
-            <br/>
-            <div
-              className="w-full flex justify-center items-center "
-            >
-              {
-                wallet?
-                <div className="w-full flex justify-between ">
-                    <div style={{color:"white"}}>
-                      <img src="/img/coins/dogs.png" style={{maxWidth:"50px"}}/>{dogsBal}
-                    </div>
-                    <div style={{color:"white"}}>
-                      <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>{tonBal}
-                    </div>
-                    <div style={{color:"white"}}>
-                      <img src="/img/chains/usdt.png" style={{maxWidth:"50px"}}/>{usdtBal}
-                    </div>
-                </div>
-                :null
-              }
-            </div>
-          </div>
-      </Card>
 
       <Card extra={'w-full p-4 h-full'}>
           <div className="w-full max-w-md mx-auto py-8">
