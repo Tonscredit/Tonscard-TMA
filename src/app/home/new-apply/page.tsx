@@ -145,7 +145,7 @@ const applyNewCardPayment = async()=>
   return (
     <div>
       <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
-       <h2 className="text-2xl font-bold text-white mb-4 flex"> Apply&nbsp;<span className="text-3xl" style={{color:config.card[cardType].color}}> {config.card[cardType].color.toUpperCase()}</span>&nbsp;Card</h2>
+       <h2 className="text-2xl font-bold text-white mb-4 flex"> Apply&nbsp;<span className="text-3xl" style={{color:config.card[cardType].color}}> {cardType.toUpperCase()}</span>&nbsp;Card</h2>
       </div>
       <div
         style={{
