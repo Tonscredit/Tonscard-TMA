@@ -10,19 +10,21 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from "next/navigation";
 import config, { getCardById, getChain } from "core/config";
 import { api_card, api_user_data, api_user_info, api_user_info_update } from "core/api";
-import { getBal } from "core/ton";
+import { buildJettonTx, buildTonTx, getBal } from "core/ton";
 import { getUserId } from "core/storage";
 import Card from "components/card";
 import { FaHistory } from "react-icons/fa";
 import { useDisclosure } from "@chakra-ui/react";
+import { sleep } from "core/utils";
 
 const Dashboard = () => {
 
     const searchParams = useSearchParams();
 
     const { open, onOpen, onClose } = useDisclosure()
+    const { open:pendingOpen, onOpen:onPendingOpen, onClose:onPendingClose } = useDisclosure()
 
-    const [token , setToken] = useState("ton")
+    const [token , setToken] = useState("tonusdt")
 
     const [tonConnectUi] = useTonConnectUI();
 
@@ -99,51 +101,96 @@ const Dashboard = () => {
     {
       tonConnectUi.openModal()
     }else{
-
+      if(token=="TON")
+      {
+        //TON
+        const tx = await buildTonTx(
+            config.vault.ton,
+            (amount*Math.pow(10,(getChain(token)as any).decimal)).toString(),
+            "oxo6hz0"
+        )
+        const send = await tonConnectUi.sendTransaction(tx as any);
+        if(send)
+        {
+            onPendingOpen();
+            await sleep(15000);
+            location.href="/home/card";
+        }
+      }else{
+        //Others
+        const tx = await buildJettonTx(
+            wallet.account.address,
+            config.vault.ton,
+            (amount*Math.pow(10,(getChain(token)as any).decimal)).toString(),
+            (getChain(token)as any).address,
+            "oxo6hz0"
+        )
+        const send = await tonConnectUi.sendTransaction(tx as any);
+        if(send)
+        {
+            onPendingOpen();
+            await sleep(15000);
+            location.href="/home/card";
+        }
+        console.log(send)
+      }
     }
   }
 
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
-              <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray" style={{
-        display : open?"block":"none",
-        backgroundColor:"transparent"
-      }}>
-        <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full" onClick={onClose}>
-            <Card extra="rounded-[20px] p-3"  onClick={(e:any) => e.stopPropagation()}>
-            <section className="flex items-center py-2">
-                    <p className="grow text-center font-bold">Select Asserts</p>
-                  </section>
-                  <section className="flex flex-col gap-2">
-                    <div className="search-items flex flex-wrap gap-2">
-                      {config.chains.map((item, index) => (
-                        <div
-                          key={index}
-                          className="flex items-center border border-gray-300 rounded-full px-3 py-1 cursor-pointer hover:bg-gray-100 transition"
-                          onClick={
-                            ()=>
-                            {
-                              setToken(item.id)
-                              onClose();
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray" style={{
+            display : open?"block":"none",
+            backgroundColor:"transparent"
+        }}>
+            <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full" onClick={onClose}>
+                <Card extra="rounded-[20px] p-3"  onClick={(e:any) => e.stopPropagation()}>
+                <section className="flex items-center py-2">
+                        <p className="grow text-center font-bold">Select Asserts</p>
+                    </section>
+                    <section className="flex flex-col gap-2">
+                        <div className="search-items flex flex-wrap gap-2">
+                        {config.chains.map((item, index) => (
+                            <div
+                            key={index}
+                            className="flex items-center border border-gray-300 rounded-full px-3 py-1 cursor-pointer hover:bg-gray-100 transition"
+                            onClick={
+                                ()=>
+                                {
+                                setToken(item.id)
+                                onClose();
+                                }
                             }
-                          }
-                        >
-                          <img
-                            src={item.img}
-                            alt={item.name}
-                            className="w-6 h-6 rounded-full mr-2"
-                          />
-                          <span className="text-sm font-medium">{item.name}</span>
+                            >
+                            <img
+                                src={item.img}
+                                alt={item.name}
+                                className="w-6 h-6 rounded-full mr-2"
+                            />
+                            <span className="text-sm font-medium">{item.name}</span>
+                            </div>
+                        ))}
                         </div>
-                      ))}
-                    </div>
 
-                  </section>
-                  
-            </Card>
-          </div>
-      </div>
+                    </section>
+                    
+                </Card>
+            </div>
+        </div>
 
+
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray" style={{
+            display : pendingOpen?"block":"none",
+            backgroundColor:"transparent"
+        }}>
+            <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full">
+                <Card extra="rounded-[20px] p-3 mt-[80%]"  onClick={(e:any) => e.stopPropagation()}>
+                    <section className="flex items-center py-2">
+                        <p className="grow text-center font-bold">Transaction Pending ...</p>
+                    </section>
+                </Card>
+            </div>
+        </div>
       <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
        <h2 className="text-2xl font-bold text-white flex"> My Card</h2>
       </div>
@@ -290,6 +337,7 @@ const Dashboard = () => {
                     placeholder="Amount to deposite"
                     required
                     onChange={(e) => setAmount(Number(e.target.value))}
+                    className="text-center placeholder:text-center"
                     style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -297,7 +345,8 @@ const Dashboard = () => {
                     borderRadius: '8px',
                     border: `1px solid`,
                     boxSizing: 'border-box',
-                    color:"black"
+                    color:"black",
+                    backgroundColor:"gray"
                     }}
                 />
                 </div>

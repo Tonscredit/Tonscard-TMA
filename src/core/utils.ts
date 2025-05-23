@@ -11,6 +11,12 @@ export function formatTime  (totalSeconds: number)  {
     const seconds = (totalSeconds % 60).toString().padStart(2, '0');
     return `${minutes}:${seconds}`;
   };
+
+function sleep (ms:number) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
+}
 export {
-    
+    sleep
 }

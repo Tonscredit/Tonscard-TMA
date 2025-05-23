@@ -44,8 +44,11 @@ const config =  {
             monthFee:0.1,
             img:"/img/card/card-bg-2.jpg",
             feeLimit:"10000/TX , 100000/D , 500000/M"
-        }
-    },
+            }
+        },
+        vault:{
+            ton:"UQAjAbN4GR4fjtIccYkhBg50grTv6xEFhT0CAYr-BYLmZVse",
+        },
         chains:[
         // {
         //     name:"SOL",
@@ -61,6 +64,7 @@ const config =  {
             name:"TON",
             id:"TON",
             img:"/img/chains/ton.png",
+            decimal:9,
             scan:{
                 base:"https://tonscan.org/",
                 account:"address",
@@ -71,6 +75,20 @@ const config =  {
             name:"USDT",
             id:"TONUSDT",
             img:"/img/chains/usdt.png",
+            address:"EQCxE6mUtQJKFnGfaROTKOt1lZbDiiX1kCixRv7Nw2Id_sDs",
+            decimal:6,
+            scan:{
+                base:"https://tonscan.org/",
+                account:"address",
+                tx:"tx"
+            }
+        },
+        {
+            name:"DOGS",
+            id:"TONDOGS",
+            img:"/img/coins/dogs.png",
+            address:"EQCvxJy4eG8hyHBFsZ7eePxrRsUQSFE_jpptRAYBmcG_DOGS",
+            decimal:6,
             scan:{
                 base:"https://tonscan.org/",
                 account:"address",
