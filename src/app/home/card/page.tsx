@@ -371,7 +371,9 @@ const Dashboard = () => {
                           {(c.amount>0 ? "+"+c.amount.toString():c.amount.toString())}$
                         </p>
                         <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2">
-                          {(new Date(c.date)).toLocaleString()}
+                          {(new Date(
+                            Number(c.request_id.split(c.user_card_id)[1])
+                            )).toLocaleString()}
                         </p>
                       </div>
                       </div>
