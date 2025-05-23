@@ -8,22 +8,27 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { useRouter, useSearchParams } from "next/navigation";
-import config, { getCardById } from "core/config";
+import config, { getCardById, getChain } from "core/config";
 import { api_card, api_user_data, api_user_info, api_user_info_update } from "core/api";
 import { getBal } from "core/ton";
 import { getUserId } from "core/storage";
 import Card from "components/card";
 import { FaHistory } from "react-icons/fa";
+import { useDisclosure } from "@chakra-ui/react";
 
 const Dashboard = () => {
 
     const searchParams = useSearchParams();
 
+    const { open, onOpen, onClose } = useDisclosure()
+
+    const [token , setToken] = useState("ton")
+
     const [tonConnectUi] = useTonConnectUI();
 
     const [initLock , setInitLock] = useState(false)
 
-    const [email, setEmail] = useState('');
+    const [amount, setAmount] = useState(0);
 
     const [credit , setCredit] = useState([])
     const [card,setCard] = useState(
@@ -100,6 +105,45 @@ const Dashboard = () => {
 
   return (
     <div className="grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
+              <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray" style={{
+        display : open?"block":"none",
+        backgroundColor:"transparent"
+      }}>
+        <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full" onClick={onClose}>
+            <Card extra="rounded-[20px] p-3"  onClick={(e:any) => e.stopPropagation()}>
+            <section className="flex items-center py-2">
+                    <p className="grow text-center font-bold">Select Asserts</p>
+                  </section>
+                  <section className="flex flex-col gap-2">
+                    <div className="search-items flex flex-wrap gap-2">
+                      {config.chains.map((item, index) => (
+                        <div
+                          key={index}
+                          className="flex items-center border border-gray-300 rounded-full px-3 py-1 cursor-pointer hover:bg-gray-100 transition"
+                          onClick={
+                            ()=>
+                            {
+                              setToken(item.id)
+                              onClose();
+                            }
+                          }
+                        >
+                          <img
+                            src={item.img}
+                            alt={item.name}
+                            className="w-6 h-6 rounded-full mr-2"
+                          />
+                          <span className="text-sm font-medium">{item.name}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                  </section>
+                  
+            </Card>
+          </div>
+      </div>
+
       <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
        <h2 className="text-2xl font-bold text-white flex"> My Card</h2>
       </div>
@@ -208,8 +252,24 @@ const Dashboard = () => {
                 boxSizing: 'border-box',
                 }}
             >
-
-
+                <br/>
+                <div
+                    className="flex justify-center items-center items-center border border-gray-300 rounded-full px-3 py-1 cursor-pointer hover:bg-gray-100 transition"
+                    onClick={
+                    ()=>
+                    {
+                        onOpen()
+                    }
+                    }
+                >
+                    <img
+                    src={(getChain(token) as any).img}
+                    alt={(getChain(token) as any).name}
+                    className="w-6 h-6 rounded-full mr-2"
+                    />
+                    <span className="text-sm font-medium">{(getChain(token) as any).name}</span>
+                </div>
+                <br/>
                 <div style={{ marginBottom: '24px' }}>
                 <label
                     htmlFor="email"
@@ -226,11 +286,10 @@ const Dashboard = () => {
                 </label>
                 <input
                     id="holder"
-                    type="text"
+                    type="number"
                     placeholder="Amount to deposite"
                     required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e) => setAmount(Number(e.target.value))}
                     style={{
                     width: '100%',
                     padding: '12px 16px',
@@ -242,6 +301,8 @@ const Dashboard = () => {
                     }}
                 />
                 </div>
+
+
                 <button
                 onClick={deposite}
                 style={{
@@ -257,7 +318,7 @@ const Dashboard = () => {
                     cursor: 'pointer',
                 }}
                 >
-                {`Confirm Deposite  TON`}
+                {`Confirm Deposite ${amount} ${(getChain(token) as any).name}`}
                 </button>
             </div>
             </div>
