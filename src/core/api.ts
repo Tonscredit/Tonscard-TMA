@@ -101,8 +101,36 @@ async function requester(url: string, requestOptions: any) {
       return 0;
     }
   }
+
+  async function api_user_cards() {
+    try {
+      return await requester(
+        `${config.api.baseUrl+config.api.router.card}`,
+        request_get_auth(),
+      );
+    } catch (e) {
+      console.error(e);
+  
+      return 0;
+    }
+  }
+
+  async function api_card(id:string) {
+    try {
+      return await requester(
+        `${config.api.baseUrl+config.api.router.card}/${id}`,
+        request_get_auth(),
+      );
+    } catch (e) {
+      console.error(e);
+  
+      return 0;
+    }
+  }
   export {
     api_user_data,
     api_user_info,
-    api_user_info_update
+    api_user_info_update,
+    api_user_cards,
+    api_card  
   }

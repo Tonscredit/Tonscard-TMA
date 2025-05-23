@@ -102,7 +102,7 @@ const Dashboard = () => {
                 brand:e.brand_code,
                 type:e.card_type,
                 expire:`${e.expire_year}/${e.expire_month}`,
-                imgSrc: "/img/card/card-emp.png",
+                imgSrc: getCardById(e.type)?getCardById(e.type).img:"/img/card/card-emp.png",
                 btnText: "Manage",
                 onClick: () => {
                   location.href="/home/card-management?id="+e.user_card_id

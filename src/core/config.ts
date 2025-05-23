@@ -10,7 +10,8 @@ const config =  {
         baseUrl:"https://api.tons.credit",
         router:{
             login:"/user/login",
-            info:"/user/info"
+            info:"/user/info",
+            card:"/user/card",
         }
     },
     card:{
@@ -21,6 +22,7 @@ const config =  {
             feeRate:"2.99%",
             applyFee:5.99,
             monthFee:0.1,
+            img:"/img/card/card-emp.png",
             feeLimit:"100/TX , 1000/D , 2000/M"
         },
         blue:{
@@ -30,6 +32,7 @@ const config =  {
             feeRate:"1.99%",
             applyFee:2.99,
             monthFee:0.1,
+            img:"/img/card/card-bg-1.webp",
             feeLimit:"1000/TX , 10000/D , 20000/M"
         },
         red:{
@@ -39,6 +42,7 @@ const config =  {
             feeRate:"1.89%",
             applyFee:9.99,
             monthFee:0.1,
+            img:"/img/card/card-bg-2.jpg",
             feeLimit:"10000/TX , 100000/D , 500000/M"
         }
     },

@@ -8,8 +8,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 
 import { useRouter, useSearchParams } from "next/navigation";
-import config from "core/config";
-import { api_user_data, api_user_info, api_user_info_update } from "core/api";
+import config, { getCardById } from "core/config";
+import { api_card, api_user_data, api_user_info, api_user_info_update } from "core/api";
 import { getBal } from "core/ton";
 import { getUserId } from "core/storage";
 import Card from "components/card";
@@ -17,46 +17,57 @@ import { FaHistory } from "react-icons/fa";
 
 const Dashboard = () => {
 
-  const searchParams = useSearchParams();
+    const searchParams = useSearchParams();
 
-  const cardType = searchParams.get("type");
+    const [tonConnectUi] = useTonConnectUI();
 
+    const [initLock , setInitLock] = useState(false)
 
-  const [tonConnectUi] = useTonConnectUI();
+    const [email, setEmail] = useState('');
 
-  const [initLock , setInitLock] = useState(false)
-
-  const [email, setEmail] = useState('');
-
-const [credit , setCredit] = useState([])
-  const [card,setCard] = useState(
+    const [credit , setCredit] = useState([])
+    const [card,setCard] = useState(
         {
             id:0,
             title:`💎Tonscredit CARD💎`,
-            cardNum:"5360257036692316",
+            cardNum:"1928257036692316",
             subtitle:"123",
             brand: "MASTER",
             type:"VIRTUAL",
             expire:`2028/01`,
             imgSrc: "/img/card/card-emp.png",
-            btnText: "Manage",
-            onClick: () => {
-                alert("Manage");
-            },
         }
-  )
-  const countries = config.region;
-  const bRef = useRef<any>(null);
+    )
+    const [cardInfo,setCardInfo] = useState({
+        available_balance:0
+    })
 
-  const wallet = useTonWallet();
+    const countries = config.region;
+    const bRef = useRef<any>(null);
 
+    const wallet = useTonWallet();
+
+    const cardId = searchParams.get("id");
   useEffect(() => {
     const init = async () => {
-      const data = await api_user_data()
+      const data = await api_card(cardId)
       console.log(data)
       if(data && data.data)
       {
-
+        setCardInfo(data.data);
+        const type = data.data.type
+        setCard(
+            {
+            id:data.data.user_card_id,
+            title:`💎 ${getCardById(type).name} 💎`,
+            cardNum:data.data.pan,
+            subtitle:data.data.cvv,
+            brand: data.data.user_card_id,
+            type:data.data.user_card_id,
+            expire:`${data.data.expire_year}/${data.data.expire_month}`,
+            imgSrc: getCardById(type).img
+            }
+        )
       }
     };
 
@@ -70,7 +81,7 @@ const [credit , setCredit] = useState([])
     {
 
     }
-  }, [wallet,]); 
+  }, [wallet]); 
 
   const cardNumDisplay = (cardNum:string)=>
   {
@@ -152,7 +163,7 @@ const [credit , setCredit] = useState([])
             <h2 className="text-2xl font-bold text-white flex"> Balance</h2>
         </div>
         <div className="w-full max-w-md mx-auto flex justify-center items-center ">
-            <h2 className="text-2xl font-bold text-white flex"> 0$</h2>
+            <h2 className="text-2xl font-bold text-white flex"> {cardInfo.available_balance} $</h2>
         </div>
 
       </Card>
