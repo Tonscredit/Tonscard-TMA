@@ -19,6 +19,8 @@ const Dashboard = () => {
 
   const cardType = searchParams.get("type");
 
+  const id = searchParams.get("id");
+
   const [from, setFrom] = useState("SOL");
 
   const [to, setTo] = useState("TON");
@@ -122,8 +124,8 @@ const updateHolderInfo=async()=>
 
 const applyNewCardPayment = async()=>
 {
-      const id = Number(getUserId()).toString(36)+config.card[cardType].id.toString(32);
-      console.log(id)
+      // const id = Number(getUserId()).toString(36)+config.card[cardType].id.toString(32);
+      // console.log(id)
       const cell = new TonWeb.boc.Cell();
       cell.bits.writeUint(0, 32);
       cell.bits.writeString(id);

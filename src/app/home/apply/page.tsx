@@ -11,6 +11,8 @@ import { generateQRCodeBase64 } from "utils/qr";
 import { SendTransactionRequest, useTonConnectUI, useTonWallet } from "@tonconnect/ui-react";
 import {TonConnectButton} from "@tonconnect/ui-react";
 import TonWeb from 'tonweb';
+import { getUserId } from "core/storage";
+import config from "core/config";
 const Dashboard = () => {
 
   const [from, setFrom] = useState("SOL");
@@ -45,7 +47,7 @@ const Dashboard = () => {
       imgSrc: "/img/card/card-emp.png",
       btnText: "Apply Dark Card",
       onClick: () => {
-        location.href = "/home/new-apply?type=dark"
+        location.href = `/home/new-apply?type=dark&id=${Number(getUserId()).toString(36)+config.card["dark"].id.toString(32)}`
       },
     },
     {
@@ -55,7 +57,7 @@ const Dashboard = () => {
       imgSrc: "/img/card/card-bg-1.webp",
       btnText: "Apply Blue Card",
       onClick: () => {
-        location.href = "/home/new-apply?type=blue"
+        location.href = `/home/new-apply?type=blue&id=${Number(getUserId()).toString(36)+config.card["blue"].id.toString(32)}`
       },
     },
     {
@@ -65,7 +67,7 @@ const Dashboard = () => {
       imgSrc: "/img/card/card-bg-2.jpg",
       btnText: "Apply Red card",
       onClick: () => {
-        location.href = "/home/new-apply?type=red"
+        location.href = `/home/new-apply?type=red&id=${Number(getUserId()).toString(36)+config.card["red"].id.toString(32)}`
       },
     },
   ];
