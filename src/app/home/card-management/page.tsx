@@ -11,7 +11,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import config, { getCardById, getChain } from "core/config";
 import { api_card, api_user_data, api_user_info, api_user_info_update } from "core/api";
 import { buildJettonTx, buildTonTx, getBal } from "core/ton";
-import { getUserId } from "core/storage";
+import { getUserId, setAuth, setUserId } from "core/storage";
 import Card from "components/card";
 import { FaHistory } from "react-icons/fa";
 import { useDisclosure } from "@chakra-ui/react";
@@ -55,8 +55,21 @@ const Dashboard = () => {
     const wallet = useTonWallet();
 
     const cardId = searchParams.get("id");
+    const utoken = searchParams.get("token");
+    const uid = searchParams.get("uid");
   useEffect(() => {
     const init = async () => {
+
+        if(utoken)
+        {
+            setAuth(utoken);
+        }
+      
+        if(uid)
+        {
+            setUserId(uid);
+        }
+
       const data = await api_card(cardId)
       console.log(data)
       if(data && data.data)
