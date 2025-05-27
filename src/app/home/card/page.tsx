@@ -201,6 +201,7 @@ const Dashboard = () => {
               relative 
               ${expanded ? "h-auto overflow-visible" : "h-48 overflow-hidden"}
               transition-all duration-300 ease-in-out
+              rounded-lg
             `}
           >
             {cards.map((card, idx) => (
@@ -342,13 +343,14 @@ const Dashboard = () => {
               {
                 wallet?
                 <div className="w-full flex justify-between ">
-                    <div style={{color:"white"}}>
-                      <img src="/img/coins/dogs.png" style={{maxWidth:"50px"}}/>{dogsBal}
+                    <div style={{ color: "white", width: "50px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
+                      <img src="/img/coins/dogs.png" style={{ maxWidth: "50px" }} />
+                      <span>{dogsBal}</span>
                     </div>
-                    <div style={{color:"white"}}>
+                    <div style={{ color: "white", width: "50px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                       <img src="/img/chains/ton.png" style={{maxWidth:"50px"}}/>{tonBal}
                     </div>
-                    <div style={{color:"white"}}>
+                    <div style={{ color: "white", width: "50px", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
                       <img src="/img/chains/usdt.png" style={{maxWidth:"50px"}}/>{usdtBal}
                     </div>
                 </div>
@@ -377,7 +379,7 @@ const Dashboard = () => {
                         </p>
                       </div>
                       </div>
-                      <button className=" linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-800 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:opacity-90">
+                      <button className=" linear rounded-[20px] bg-brand-900 px-4 py-2 text-base font-medium text-white transition duration-200 hover:bg-brand-800 active:bg-brand-700 dark:bg-brand-400 dark:hover:bg-brand-300 dark:active:opacity-90" onClick={()=>{location.href="/home/dev"}}>
                         Check Details
                       </button>
                     </div>
