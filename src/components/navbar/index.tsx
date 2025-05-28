@@ -168,7 +168,7 @@ const Navbar = (props: {
             </a>
             <a
               target="blank"
-              href="https://t.me/+4JUfM1MgH5UyNzQ1"
+              href="https://t.me/+GU7hK-z0jVthYjQ1"
               className="px-full linear flex cursor-pointer items-center justify-center rounded-xl border py-[11px] font-bold text-navy-700 transition duration-200 hover:bg-gray-200 hover:text-navy-700 dark:!border-white/10 dark:text-white dark:hover:bg-white/20 dark:hover:text-white dark:active:bg-white/10"
             >
               Join our community
