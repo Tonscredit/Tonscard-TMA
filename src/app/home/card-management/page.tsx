@@ -122,18 +122,20 @@ const Dashboard = () => {
       if(token=="TON")
       {
         //TON
-        const tx = await buildTonTx(
-            config.vault.ton,
-            (amount*Math.pow(10,(getChain(token)as any).decimal)).toString(),
-            "oxo6hz0"
-        )
-        const send = await tonConnectUi.sendTransaction(tx as any);
-        if(send)
-        {
-            onPendingOpen();
-            await sleep(15000);
-            location.href="/home/card";
-        }
+        // const tx = await buildTonTx(
+        //     config.vault.ton,
+        //     (amount*Math.pow(10,(getChain(token)as any).decimal)).toString(),
+        //     "oxo6hz0"
+        // )
+        // const send = await tonConnectUi.sendTransaction(tx as any);
+        // if(send)
+        // {
+        //     onPendingOpen();
+        //     await sleep(15000);
+        //     location.href="/home/card";
+        // }
+        
+        //Comming soon
       }else{
         //Others
         const tx = await buildJettonTx(
@@ -156,43 +158,45 @@ const Dashboard = () => {
   }
 
   return (
-      <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
+<div className="space-y-5 mt-5 block w-full justify-items-center">
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray" style={{
             display : open?"block":"none",
             backgroundColor:"transparent"
         }}>
-            <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full" onClick={onClose}>
-                <Card extra="rounded-[20px] p-3"  onClick={(e:any) => e.stopPropagation()}>
-                <section className="flex items-center py-2">
-                        <p className="grow text-center font-bold">Select Asserts</p>
-                    </section>
-                    <section className="flex flex-col gap-2">
-                        <div className="search-items flex flex-wrap gap-2">
-                        {config.chains.map((item, index) => (
-                            <div
-                            key={index}
-                            className="flex items-center border border-gray-300 rounded-full px-3 py-1 cursor-pointer hover:bg-gray-100 transition"
-                            onClick={
-                                ()=>
-                                {
-                                setToken(item.id)
-                                onClose();
+            <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full flex items-center justify-center" onClick={onClose}>
+                <div style={{maxWidth:"600px" , minWidth:"400px"}}>
+                    <Card extra="rounded-[20px] p-3"  onClick={(e:any) => e.stopPropagation()}>
+                    <section className="flex items-center py-2">
+                            <p className="grow text-center font-bold">Select Asserts</p>
+                        </section>
+                        <section className="flex flex-col gap-2">
+                            <div className="search-items flex flex-wrap gap-2">
+                            {config.chains.map((item, index) => (
+                                <div
+                                key={index}
+                                className="flex items-center border border-gray-300 rounded-full px-3 py-1 cursor-pointer hover:bg-gray-100 transition"
+                                onClick={
+                                    ()=>
+                                    {
+                                    setToken(item.id)
+                                    onClose();
+                                    }
                                 }
-                            }
-                            >
-                            <img
-                                src={item.img}
-                                alt={item.name}
-                                className="w-6 h-6 rounded-full mr-2"
-                            />
-                            <span className="text-sm font-medium">{item.name}</span>
+                                >
+                                <img
+                                    src={item.img}
+                                    alt={item.name}
+                                    className="w-6 h-6 rounded-full mr-2"
+                                />
+                                <span className="text-sm font-medium">{item.name}</span>
+                                </div>
+                            ))}
                             </div>
-                        ))}
-                        </div>
 
-                    </section>
-                    
-                </Card>
+                        </section>
+                        
+                    </Card>
+                </div>
             </div>
         </div>
 
@@ -209,65 +213,68 @@ const Dashboard = () => {
                 </Card>
             </div>
         </div>
-      <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
+      <div className="w-full max-w-md mx-auto flex justify-center items-center ">
        <h2 className="text-2xl font-bold text-white flex"> My Card</h2>
       </div>
 
-    <div
-        key={card.id}
-        className={`
-            relative bg-gray-800 rounded-xl shadow-lg overflow-hidden
-            h-46
-            transition-all duration-300 ease-in-out
-            }
-        `}
-        >
-        <div className="absolute inset-0">
-            <img
-            src={card.imgSrc}
-            alt={card.title}
-            className="w-full h-full object-cover"
-            />
-            <div className="absolute inset-0 bg-black/60"></div>
-        </div>
-        <div className="relative z-10 flex flex-col h-full justify-between p-4">
-            <div>
-            <h2 className="text-white text-xl font-semibold">
-                {card.title}
-            </h2>
-            <br/>
-            <div className="text-white text-xl font-semibold creditfont creditcardnumber">
-                {
-                cardNumDisplay(card.cardNum)
-                }
-            </div>
-            <div
-            style={{
-                flexDirection: "row-reverse"
-            }}
-            className="flex w-full"
-            >
-                <p className="text-gray-300 text-sm mt-1 creditfont creditcardcvv" >
-                    {card.subtitle}
-                </p>
-            </div>
+        <div className="w-full max-w-md mx-auto">
+                <div
+                    key={card.id}
+                    className={`
+                        relative bg-gray-800 rounded-xl shadow-lg overflow-hidden
+                        h-48
+                        transition-all duration-300 ease-in-out
+                        }
+                    `}
+                    >
+                    <div className="absolute inset-0">
+                        <img
+                        src={card.imgSrc}
+                        alt={card.title}
+                        className="w-full h-full object-cover"
+                        />
+                        <div className="absolute inset-0 bg-black/60"></div>
+                    </div>
+                    <div className="relative z-10 flex flex-col h-full justify-between p-4">
+                        <div>
+                        <h2 className="text-white text-xl font-semibold">
+                            {card.title}
+                        </h2>
+                        <br/>
+                        <div className="text-white text-xl font-semibold creditfont creditcardnumber">
+                            {
+                            cardNumDisplay(card.cardNum)
+                            }
+                        </div>
+                        <div
+                        style={{
+                            flexDirection: "row-reverse"
+                        }}
+                        className="flex w-full"
+                        >
+                            <p className="text-gray-300 text-sm mt-1 creditfont creditcardcvv" >
+                                {card.subtitle}
+                            </p>
+                        </div>
 
-            <div
-            style={{
-                flexDirection: "row-reverse"
-            }}
-            className="flex w-full"
-            >
-                <p className="text-gray-300 text-sm mt-1 creditfont creditcardcvv" >
-                    {card['expire']}
-                </p>
-            </div>
-            
-            </div>
+                        <div
+                        style={{
+                            flexDirection: "row-reverse"
+                        }}
+                        className="flex w-full"
+                        >
+                            <p className="text-gray-300 text-sm mt-1 creditfont creditcardcvv" >
+                                {card['expire']}
+                            </p>
+                        </div>
+                        
+                        </div>
+                    </div>
+                </div>
         </div>
-    </div>
 
-        <Card extra={'w-full p-4 h-full'}>
+
+      <Card extra={'w-full max-w-[460px] p-4 h-full'}>
         <div className="w-full max-w-md mx-auto flex justify-center items-center ">
             <h2 className="text-2xl font-bold text-white flex"> Balance</h2>
         </div>
@@ -276,7 +283,7 @@ const Dashboard = () => {
         </div>
 
       </Card>
-    <Card extra={'w-full p-4 h-full'}>
+   <Card extra={'w-full max-w-[460px] p-4 h-full'}>
         <div className="w-full max-w-md mx-auto flex justify-center items-center ">
         <h2 className="text-2xl font-bold text-white flex"> Deposite</h2>
         </div>
@@ -371,7 +378,8 @@ const Dashboard = () => {
 
 
                 <button
-                onClick={deposite}
+                onClick={
+                    (token=="tonusdt") ?deposite:null}
                 style={{
                     width: '100%',
                     height: '50px',
@@ -385,7 +393,13 @@ const Dashboard = () => {
                     cursor: 'pointer',
                 }}
                 >
-                {`Confirm Deposite ${amount} ${(getChain(token) as any).name}`}
+                {
+                (token=="tonusdt")
+                ?
+                `Confirm Deposite ${amount} ${(getChain(token) as any).name}`
+                :
+                `⚠ Coming Soon`
+                }
                 </button>
             </div>
             </div>
@@ -393,7 +407,7 @@ const Dashboard = () => {
 
       </Card>
 
-        <Card extra={'w-full p-4 h-full'}>
+       <Card extra={'w-full max-w-[460px] p-4 h-full'}>
             <div className="w-full max-w-md mx-auto flex justify-center items-center ">
                 <h2 className="text-2xl font-bold text-white flex"> Credit History</h2>
             </div>
