@@ -15,7 +15,7 @@ const Dashboard = () => {
   return (
     <div>
 
-      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
+      <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
 
 
 

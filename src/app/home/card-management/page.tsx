@@ -156,7 +156,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
+      <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray" style={{
             display : open?"block":"none",
             backgroundColor:"transparent"

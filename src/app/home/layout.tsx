@@ -32,11 +32,13 @@ export default function Admin({ children }: { children: React.ReactNode }) {
         >
           {/* Routes */}
           <div>
-          <Navbar
-              onOpenSidenav={() => setOpen(!open)}
-              brandText={getActiveRoute(routes, pathname)}
-              secondary={getActiveNavbar(routes, pathname)}
-            />
+            <div className='w-full p-4 h-full  justify-items-center'>
+            <Navbar
+                onOpenSidenav={() => setOpen(!open)}
+                brandText={getActiveRoute(routes, pathname)}
+                secondary={getActiveNavbar(routes, pathname)}
+              />
+            </div>
           <TonConnectUIProvider
           manifestUrl="https://manifest.tons.credit/manifest.json"
           uiPreferences={{ theme: THEME.DARK }}

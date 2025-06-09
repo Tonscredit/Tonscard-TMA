@@ -192,7 +192,7 @@ const Dashboard = () => {
   return (
     <div>
 
-      <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2 justify-items-center">
+      <div className="p-5 space-y-5 mt-5 block w-full justify-items-center">
 
         <div className="w-full max-w-md mx-auto">
           <h2 className="text-2xl font-bold text-white mb-4 flex"><FaCreditCard/>&nbsp; My Poket &nbsp;</h2>
@@ -327,7 +327,7 @@ const Dashboard = () => {
               )}
         </div>
 
-      <Card extra={'w-full p-4 h-full'}>
+      <Card extra={'w-full max-w-[460px] p-4 h-full'}>
           <div className="w-full max-w-md mx-auto py-8">
             <h2 className="text-2xl font-bold text-white mb-4 flex"><FaStar/>&nbsp; My Credit</h2>
             <div
@@ -360,7 +360,7 @@ const Dashboard = () => {
           </div>
       </Card>
 
-      <Card extra={'w-full p-4 h-full'}>
+      <Card extra={'w-full max-w-[460px] p-4 h-full'}>
           <div className="w-full max-w-md mx-auto py-8">
             <h2 className="text-2xl font-bold text-white mb-4 flex"><FaHistory/>&nbsp; Credit History</h2>
               <div className={`!z-5 relative flex flex-col rounded-[20px] bg-gray-900 bg-clip-border shadow-3xl shadow-shadow-100 dark:text-white `}>
