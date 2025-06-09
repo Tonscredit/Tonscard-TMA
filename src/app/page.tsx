@@ -13,6 +13,11 @@ export default function Home({}) {
     console.log(token,uid);
     setAuth(token);
     setUserId(uid);
-    redirect('https://t.me/tonscredit_bot');
+    if(!token)
+    {
+      redirect('https://t.me/tonscredit_bot?start=launch');
+    }else{
+      redirect('/home/card');
+    }
     }, []);
 }
