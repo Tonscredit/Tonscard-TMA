@@ -12,6 +12,9 @@ import config from "core/config";
 import { api_user_info, api_user_info_update } from "core/api";
 import { getBal } from "core/ton";
 import { getUserId } from "core/storage";
+import { useDisclosure } from "@chakra-ui/react";
+import Card from "components/card";
+import { sleep } from "core/utils";
 
 const Dashboard = () => {
 
@@ -38,12 +41,15 @@ const Dashboard = () => {
   const [holderCity, setHolderCity] = useState('');
   const [holderDetails, setHolderDetails] = useState('');
 
+  const { open:pendingOpen, onOpen:onPendingOpen, onClose:onPendingClose } = useDisclosure()
+
   const countries = config.region;
   const bRef = useRef<any>(null);
 
   const wallet = useTonWallet();
 
   useEffect(() => {
+    // onPendingOpen()
     const init = async () => {
       const data = await api_user_info()
       console.log(data)
@@ -97,7 +103,9 @@ const Dashboard = () => {
       await updateHolderInfo()
       //Submit the invoice id on chain .
       await applyNewCardPayment()
-
+      onPendingOpen();
+      await sleep(20000);
+      onPendingClose();
       location.href="/home/card"
     }
   }
@@ -146,6 +154,21 @@ const applyNewCardPayment = async()=>
 }
   return (
     <div>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-gray" style={{
+            display : pendingOpen?"block":"none",
+            backgroundColor:"transparent"
+        }}>
+            <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full flex items-center justify-center">
+            <div style={{maxWidth:"600px" , minWidth:"400px"}}>
+                <Card extra="rounded-[20px] p-3"  onClick={(e:any) => e.stopPropagation()}>
+                    <section className="items-center py-2">
+                        <p className="grow text-center font-bold">Transaction Pending ...</p>
+                        <p className="grow text-center font-bold">Please wait for transaction confirm ...</p>
+                    </section>
+                </Card>
+            </div>
+            </div>
+        </div>
       <div className="w-full max-w-md mx-auto py-8 flex justify-center items-center ">
        <h2 className="text-2xl font-bold text-white mb-4 flex"> Apply&nbsp;<span className="text-3xl" style={{color:config.card[cardType].color}}> {cardType.toUpperCase()}</span>&nbsp;Card</h2>
       </div>

@@ -14,6 +14,7 @@ import TonWeb from 'tonweb';
 import { api_user_data } from "core/api";
 import { getBal } from "core/ton";
 import { getCardById } from "core/config";
+import { redirect } from 'next/navigation';
 const Dashboard = () => {
   const [expanded, setExpanded] = useState(false);
   const [tonConnectUi] = useTonConnectUI();
@@ -129,6 +130,9 @@ const Dashboard = () => {
         {
           setCredit(info.credit)
         }
+      }else
+      {
+        redirect('https://t.me/tonscredit_bot?start=launch');
       }
     }
     if(!initLock)

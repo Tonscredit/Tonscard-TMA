@@ -59,7 +59,7 @@ const Dashboard = () => {
     const uid = searchParams.get("uid");
   useEffect(() => {
     const init = async () => {
-
+       
         if(utoken)
         {
             setAuth(utoken);
@@ -149,7 +149,7 @@ const Dashboard = () => {
         if(send)
         {
             onPendingOpen();
-            await sleep(15000);
+            await sleep(20000);
             location.href="/home/card";
         }
         console.log(send)
@@ -205,12 +205,15 @@ const Dashboard = () => {
             display : pendingOpen?"block":"none",
             backgroundColor:"transparent"
         }}>
-            <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full">
-                <Card extra="rounded-[20px] p-3 mt-[80%]"  onClick={(e:any) => e.stopPropagation()}>
-                    <section className="flex items-center py-2">
+            <div className="bg-gray-300/70 p-6 rounded-xl shadow-lg h-full flex items-center justify-center">
+            <div style={{maxWidth:"600px" , minWidth:"400px"}}>
+                <Card extra="rounded-[20px] p-3"  onClick={(e:any) => e.stopPropagation()}>
+                    <section className="items-center py-2">
                         <p className="grow text-center font-bold">Transaction Pending ...</p>
+                        <p className="grow text-center font-bold">Please wait for transaction confirm ...</p>
                     </section>
                 </Card>
+            </div>
             </div>
         </div>
       <div className="w-full max-w-md mx-auto flex justify-center items-center ">
@@ -407,11 +410,9 @@ const Dashboard = () => {
 
       </Card>
 
-       <Card extra={'w-full max-w-[460px] p-4 h-full'}>
-            <div className="w-full max-w-md mx-auto flex justify-center items-center ">
-                <h2 className="text-2xl font-bold text-white flex"> Credit History</h2>
-            </div>
-          <div className="w-full max-w-md mx-auto">
+      <Card extra={'w-full max-w-[460px] p-4 h-full'}>
+          <div className="w-full max-w-md mx-auto py-8">
+            <h2 className="text-2xl font-bold text-white mb-4 flex"><FaHistory/>&nbsp; Credit History</h2>
               <div className={`!z-5 relative flex flex-col rounded-[20px] bg-gray-900 bg-clip-border shadow-3xl shadow-shadow-100 dark:text-white `}>
                 {credit.map((c, idx) => (
                   <div className="h-full w-full" key={idx}>
@@ -422,7 +423,9 @@ const Dashboard = () => {
                           {(c.amount>0 ? "+"+c.amount.toString():c.amount.toString())}$
                         </p>
                         <p className="mt-1 text-sm font-medium text-gray-600 md:mt-2">
-                          {(new Date(c.date)).toLocaleString()}
+                          {(new Date(
+                            Number(c.request_id.split(c.user_card_id)[1])
+                            )).toLocaleString()}
                         </p>
                       </div>
                       </div>
